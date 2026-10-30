@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Token Grove · Local usage</title><link rel="stylesheet" href="/app.css"><script src="/app.js" defer></script></head>
+<body>
+<div class="shell">
+<header><a class="brand" href="/" aria-label="Token Grove home"><span class="mark">t<span>g</span></span><span>Token Grove<small>LOCAL SIGNAL. CLEAR COVERAGE.</small></span></a><div class="device"><span class="dot"></span> SOFTWARE ONLY <span class="divider">/</span> PI READY</div></header>
+<main>
+<section class="intro"><div><div class="eyebrow">YOUR WORK, MEASURED LOCALLY</div><h1>A little clarity<br>for every token.</h1><p>See where your local Codex usage goes.<br>Only the activity your records can prove.</p></div><div class="controls"><label for="range">Time window · UTC</label><select id="range"><option value="7">Last 7 days</option><option value="30" selected>Last 30 days</option><option value="90">Last 90 days</option><option value="all">All retained records</option></select><button id="refresh" type="button">↻ Refresh view</button><span id="updated">Connecting to local service…</span></div></section>
+<div id="demo" class="notice demo" hidden>DEMO MODE · Fictional sample usage. These numbers are not your activity.</div>
+<div id="error" class="notice error" role="alert" hidden></div>
+<div id="empty" class="notice" hidden></div>
+<section class="metrics" aria-label="Usage summary">
+<article class="metric primary"><span class="eyebrow">TOTAL TOKENS PROCESSED</span><strong id="total">—</strong><span id="total-note">Waiting for measured records</span><div class="metric-line"></div></article>
+<article class="metric"><span class="eyebrow">TODAY · UTC</span><strong id="today">—</strong><span id="today-note">No reported records</span></article>
+<article class="metric"><span class="eyebrow">LOCAL SESSIONS</span><strong id="sessions">—</strong><span id="sessions-note">In the selected window</span></article>
+<article class="metric cloud"><span class="eyebrow">DOT / CLOUD</span><strong>Unmeasured</strong><span>No supported token source.<br>Excluded from every total.</span><span class="cloud-badge">OUTSIDE COVERAGE</span></article>
+</section>
+<section class="grid"><article class="panel daily-panel"><div class="panel-title"><div><span class="eyebrow">THE DAILY PICTURE</span><h2>Usage over time</h2></div><span class="legend"><i></i> Input + output</span></div><div id="chart" class="chart" aria-label="Daily token usage"></div><div class="chart-foot">UTC days · gaps mean no reported records<span id="chart-range"></span></div><details><summary>View daily values</summary><table><thead><tr><th>Date · UTC</th><th>Input</th><th>Output</th><th>Total</th></tr></thead><tbody id="daily-values"></tbody></table></details></article>
+<article class="panel"><div class="panel-title"><div><span class="eyebrow">WHERE THE WORK HAPPENS</span><h2>Top projects</h2></div><span id="project-count" class="subtle"></span></div><div id="projects" class="projects"></div><p class="fine">Grouped by the working directory recorded by Codex. Hover a project for its full path.</p></article></section>
+<section class="grid bottom"><article class="panel"><div class="panel-title"><div><span class="eyebrow">INSIDE THE TOTAL</span><h2>Token composition</h2></div></div><div id="composition" class="composition"></div><p class="fine">Cached input is part of input, never added twice. Reasoning tokens are part of output. Tokens processed are not a price or subscription balance.</p></article>
+<article class="panel coverage"><div class="panel-title"><div><span class="eyebrow">HONEST BY DESIGN</span><h2>What this covers</h2></div><span id="coverage-status" class="pill">Loading</span></div><p id="source" class="source">Local Codex session records</p><div id="coverage-stats" class="coverage-stats"></div><p id="record-span" class="fine"></p><ul id="warnings" class="warnings"></ul><p class="fine">Retained local logs only. Missing records are unknown, never assumed to be zero. Imported snapshots stay fixed until the service restarts.</p></article></section>
+</main>
+<footer><span>Token Grove <b> / </b> v0.1</span><span>One small service. No keys. No telemetry.</span><a href="/api/usage?days=30">View JSON ↗</a></footer>
+</div>
+</body></html>

@@ -80,7 +80,7 @@ Use `--offline` if dependencies are already cached. Tests cover modern and cumul
 
 ## Pi service workflow (prepared, not deployed)
 
-Read-only checks on 30 October 2026 found the existing dashboard at `http://192.168.0.25:9999/` reporting Raspberry Pi 5, Debian 13, ARM64, and systemd-managed services. One TCP connection to port 9988 was refused: no reachable listener was observed, but host-side port availability must be checked again before installation. The existing `Daniel/live` repository documents the user `danutz` and `/home/danutz/Development/live`; none of its files or services are changed here.
+The prepared deployment targets a Raspberry Pi running Linux ARM64 with systemd. Check the intended host, service user, Rust toolchain, and availability of port 9988 before installing. The service is separate from any existing dashboard on port 9999. ARM hardware validation is still outstanding.
 
 Convenience targets:
 
@@ -90,7 +90,7 @@ make check    # format, clippy, tests
 make demo     # local, labeled fictional sample
 ```
 
-The proposed separate service is **token-grove.service**, at `http://192.168.0.25:9988/`. Before deployment, confirm access to the Pi, the checkout location (suggested `/home/danutz/Development/pi-usage`), and how fresh usage exports will arrive there. No GitHub repository or remote is created by this project. Establish the desired private repository/clone separately; exports are ignored by Git and must not be committed.
+The proposed separate service is **token-grove.service**, at `http://<pi-address>:9988/`. Before deployment, confirm access to the Pi, the checkout location (for example `~/Development/pi-usage`), and how fresh usage exports will arrive there. Clone the [source repository](https://github.com/danieloraca/pi-usage) into that new directory. Usage exports are private data: they are ignored by Git and must not be committed.
 
 Review `deploy/token-grove.service.template` and replace `__PI_USER__`, `__PROJECT_DIR__`, and `__EXPORT_PATH__` with verified values. The import file must be readable by that user. This template intentionally binds to the LAN on port 9988; anyone who can reach it can view project paths and usage. It has no authentication. For a loopback-only deployment, change its bind address and adapt the update script’s explicit address guard.
 
@@ -99,7 +99,7 @@ The exact first-install action, **requiring a separate deployment go-ahead**, is
 Once that new unit is installed and its Git checkout has a configured upstream, the explicit Pi-side update workflow is:
 
 ```sh
-cd /home/danutz/Development/pi-usage
+cd ~/Development/pi-usage
 make deploy SERVICE=token-grove.service
 ```
 

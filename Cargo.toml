@@ -1,0 +1,18 @@
+[package]
+name = "pi-usage"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.88"
+description = "A small, local Codex usage dashboard for Raspberry Pi"
+
+[dependencies]
+chrono = { version = "0.4", features = ["serde"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = { version = "1", features = ["raw_value"] }
+tiny_http = "0.12"
+
+[profile.release]
+opt-level = "s"
+lto = true
+codegen-units = 1
+strip = true

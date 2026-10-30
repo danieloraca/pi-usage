@@ -1,0 +1,19 @@
+[Unit]
+Description=Token Grove local Codex usage dashboard
+After=network.target
+
+[Service]
+Type=simple
+# Replace these placeholders with verified Pi paths/user before installation.
+User=__PI_USER__
+WorkingDirectory=__PROJECT_DIR__
+ExecStart=__PROJECT_DIR__/target/release/pi-usage serve --import __EXPORT_PATH__ --bind 0.0.0.0:9988
+Restart=on-failure
+RestartSec=5
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=read-only
+
+[Install]
+WantedBy=multi-user.target

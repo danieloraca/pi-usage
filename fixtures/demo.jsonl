@@ -1,0 +1,10 @@
+{"type":"session_meta","payload":{"id":"demo-pi","cwd":"/projects/pi-usage","model_provider":"openai"}}
+{"type":"token_usage_record","timestamp":"2026-10-24T09:00:00Z","payload":{"thread_id":"demo-pi","response_id":"demo-1","usage":{"input_tokens":92000,"cached_input_tokens":64000,"output_tokens":12000}}}
+{"type":"token_usage_record","timestamp":"2026-10-25T09:00:00Z","payload":{"thread_id":"demo-pi","response_id":"demo-2","usage":{"input_tokens":164000,"cached_input_tokens":120000,"output_tokens":18000}}}
+{"type":"token_usage_record","timestamp":"2026-10-27T09:00:00Z","payload":{"thread_id":"demo-pi","response_id":"demo-3","usage":{"input_tokens":210000,"cached_input_tokens":180000,"output_tokens":22000}}}
+{"type":"token_usage_record","timestamp":"2026-10-29T09:00:00Z","payload":{"thread_id":"demo-pi","response_id":"demo-4","usage":{"input_tokens":122000,"cached_input_tokens":92000,"output_tokens":14000}}}
+{"type":"session_meta","payload":{"id":"demo-garden","cwd":"/projects/garden-monitor","model_provider":"openai"}}
+{"type":"token_usage_record","timestamp":"2026-10-26T09:00:00Z","payload":{"thread_id":"demo-garden","response_id":"demo-5","usage":{"input_tokens":78000,"cached_input_tokens":48000,"output_tokens":9500}}}
+{"type":"token_usage_record","timestamp":"2026-10-28T09:00:00Z","payload":{"thread_id":"demo-garden","response_id":"demo-6","usage":{"input_tokens":112000,"cached_input_tokens":80000,"output_tokens":13500}}}
+{"type":"session_meta","payload":{"id":"demo-radio","cwd":"/projects/kitchen-radio","model_provider":"openai"}}
+{"type":"token_usage_record","timestamp":"2026-10-30T00:01:00Z","payload":{"thread_id":"demo-radio","response_id":"demo-7","usage":{"input_tokens":64000,"cached_input_tokens":42000,"output_tokens":8000}}}

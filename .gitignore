@@ -1,0 +1,8 @@
+/target/
+usage-export*.json
+/exports/
+/data/
+/.codex/
+.env
+.env.*
+.DS_Store
