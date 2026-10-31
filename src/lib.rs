@@ -1,5 +1,8 @@
+pub mod agent;
 pub mod ingest;
 pub mod report;
+pub mod snapshot;
+pub mod sync;
 
 use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};

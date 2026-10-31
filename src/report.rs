@@ -37,6 +37,7 @@ pub struct Project {
 }
 #[derive(Serialize)]
 pub struct Report<'a> {
+    pub reload: Option<&'a crate::snapshot::ReloadStatus>,
     pub status: &'static str,
     pub demo: bool,
     pub source: &'a str,
@@ -87,6 +88,7 @@ pub fn summarize(bundle: &Bundle, days: Option<u32>, now: DateTime<Utc>) -> Repo
         "measured_local_only"
     };
     Report {
+        reload: None,
         status,
         demo: bundle.demo,
         source: &bundle.source,

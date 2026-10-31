@@ -6,3 +6,5 @@ usage-export*.json
 .env
 .env.*
 .DS_Store
+sync-config.json
+*.plist

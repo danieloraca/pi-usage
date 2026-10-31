@@ -39,18 +39,20 @@ function render(data) {
   text('total-note',data.totals?`${number(data.totals.records)} measured usage records`:'No measured records in this window');
   text('today',data.today?compact(data.today.total):'—');text('today-note',data.today?`${number(data.today.total)} tokens processed`:'No reported records today');
   text('sessions',data.totals?number(data.sessions):'—');
-  text('updated',`Snapshot: ${date(data.generated_at)}`);
+  text('updated',`Usage snapshot: ${date(data.generated_at)}`);
   $('empty').hidden=data.status==='measured_local_only';
   text('empty',data.status==='unavailable'?'No measurable local usage is available. Run local Codex, select its home with --codex-home, or import a Token Grove export. Use --demo to explore a separate, labeled example.':'No usage records in this time window. Try “All retained records”. This does not establish zero usage.');
   chart(data.daily);projects(data.projects);
   const parts=$('composition');parts.replaceChildren();const t=data.totals;
   for(const [name,value]of [['Input · includes cache',t?number(t.input):'—'],['Cached input · subset',t&&t.cache_known?number(t.cached):'Unknown'],['Output · includes reasoning',t?number(t.output):'—']]){const row=el('div','composition-row');row.append(el('span','',name),el('strong','',value));parts.append(row);}
   const c=data.coverage;const gaps=c.unreadable+c.malformed+c.incomplete_lines+c.conflicts+c.skipped_usage+c.legacy_suppressed+c.counter_resets+c.unknown_baselines;
-  text('coverage-status',data.demo?'Demo':data.status==='unavailable'?'Unavailable':gaps?'Partial coverage':'Local records only');
+  text('coverage-status',data.reload?.error?'Last valid snapshot':data.demo?'Demo':data.status==='unavailable'?'Unavailable':gaps?'Partial coverage':'Local records only');
   text('source',data.source);text('record-span',data.first_record?`Retained record span: ${date(data.first_record)} → ${date(data.last_record)}`:'No valid record timestamps available.');
   const stats=$('coverage-stats');stats.replaceChildren();for(const[label,n]of [['files read',c.files_read],['duplicates ignored',c.duplicates],['inherited records excluded',c.excluded_history]]){const item=el('span');item.append(el('b','',number(n)),document.createTextNode(' '+label));stats.append(item);}
   const warnings=$('warnings');warnings.replaceChildren();
   const messages=[...c.notes];
+  if(data.reload?.error)messages.unshift(`Snapshot update failed; showing last valid data. ${data.reload.error}`);
+  if(data.reload)messages.push(`Automatic reload checked ${date(data.reload.last_checked)}. ${number(data.reload.reloads)} validated updates since startup.`);
   for(const [label,n]of [['Unreadable files/directories',c.unreadable],['Malformed or oversized log lines',c.malformed],['Incomplete trailing lines (retried next scan)',c.incomplete_lines],['Conflicting record IDs excluded',c.conflicts],['Usage events skipped (missing, invalid, or unsupported)',c.skipped_usage],['Legacy events excluded in sessions with response records',c.legacy_suppressed],['Counter resets; only reported last usage counted',c.counter_resets],['Unknown cumulative baselines; no historical total guessed',c.unknown_baselines]])if(n)messages.push(`${label}: ${number(n)}`);
   for(const message of messages)warnings.append(el('li','',message));
 }

@@ -1,0 +1,9 @@
+{
+  "codex_home": "/Users/YOUR_MAC_USER/.codex",
+  "state_dir": "/Users/YOUR_MAC_USER/Library/Application Support/Token Grove/state",
+  "ssh_target": "YOUR_PI_USER@YOUR_PI_HOST",
+  "remote_binary": "/home/YOUR_PI_USER/Development/pi-usage/target/release/pi-usage",
+  "remote_snapshot": "/home/YOUR_PI_USER/Development/pi-usage/data/usage-export.json",
+  "export_timeout_seconds": 120,
+  "ssh_timeout_seconds": 60
+}
