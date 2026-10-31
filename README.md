@@ -143,6 +143,15 @@ make sync-status CONFIG="$HOME/Library/Application Support/Token Grove/sync.json
 
 The calendar schedule coalesces missed sleep intervals into one invocation after wake, rather than replaying a backlog. It does not wake the Mac or keep it awake. At login `RunAtLoad` checks the latest state. See [Apple's launchd scheduling documentation](https://developer.apple.com/library/archive/documentation/MacOSX/Conceptual/BPSystemStartup/Chapters/ScheduledJobs.html). If the Pi is offline after wake, the next five-minute run retries.
 
+After a Mac restart, the installed LaunchAgent starts automatically when you log in; there is no manual restart step. It does not run before login. For a manual restart of an already loaded agent:
+
+```sh
+cd /path/to/pi-usage
+make sync-restart
+```
+
+This restarts the installed sync worker immediately and keeps its five-minute schedule. It uses the existing installed config and binary, so no `CONFIG` argument is needed. It refuses to run on Linux or when the agent is not loaded. To install the agent or update its binary after code changes, use `make sync-install CONFIG=...` instead. A restart request is not proof of a successful transfer; use `make sync-status CONFIG=...` to check the outcome.
+
 To disable background work:
 
 ```sh

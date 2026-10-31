@@ -1,7 +1,7 @@
-.PHONY: help rebuild check test run demo deploy sync-dry-run sync-once sync-install sync-uninstall sync-status sync-plist
+.PHONY: help rebuild check test run demo deploy sync-dry-run sync-once sync-install sync-uninstall sync-status sync-plist sync-restart
 
 help:
-	@printf '%s\n' 'make rebuild  Build the release binary' 'make check    Format, lint, and test' 'make run      Serve local Codex usage on loopback' 'make demo     Serve labeled sample data' 'make deploy SERVICE=token-grove.service  Explicit Pi-side update of an already installed service' 'make sync-dry-run CONFIG=/absolute/sync.json  Local checks only' 'make sync-once CONFIG=/absolute/sync.json  Send one real snapshot' 'make sync-install CONFIG=/absolute/sync.json  Enable five-minute Mac sync' 'make sync-status CONFIG=/absolute/sync.json  Show sync status' 'make sync-uninstall  Disable the Mac LaunchAgent'
+	@printf '%s\n' 'make rebuild  Build the release binary' 'make check    Format, lint, and test' 'make run      Serve local Codex usage on loopback' 'make demo     Serve labeled sample data' 'make deploy SERVICE=token-grove.service  Explicit Pi-side update of an already installed service' 'make sync-dry-run CONFIG=/absolute/sync.json  Local checks only' 'make sync-once CONFIG=/absolute/sync.json  Send one real snapshot' 'make sync-install CONFIG=/absolute/sync.json  Enable five-minute Mac sync' 'make sync-status CONFIG=/absolute/sync.json  Show sync status' 'make sync-restart  Restart the installed Mac LaunchAgent now' 'make sync-uninstall  Disable the Mac LaunchAgent'
 
 rebuild:
 	cargo build --release --locked
@@ -43,3 +43,11 @@ sync-uninstall:
 
 sync-status:
 	./target/release/pi-usage sync-agent status --config "$(CONFIG)"
+
+# Manual restart only; an installed LaunchAgent starts automatically at login.
+# Use sync-install to update its installed binary after rebuilding.
+sync-restart:
+	@if [ "$$(uname -s)" != Darwin ]; then printf '%s\n' 'sync-restart is for macOS only.' >&2; exit 1; fi
+	@if ! /bin/launchctl print "gui/$$(id -u)/com.tokengrove.sync" >/dev/null 2>&1; then printf '%s\n' 'Token Grove sync is not loaded. First run make sync-install CONFIG=/absolute/path/to/sync.json as your logged-in Mac user.' >&2; exit 1; fi
+	/bin/launchctl kickstart -k "gui/$$(id -u)/com.tokengrove.sync"
+	@printf '%s\n' 'Sync restart requested; the five-minute schedule is unchanged. Use make sync-status CONFIG=/absolute/path/to/sync.json to check the result.'
