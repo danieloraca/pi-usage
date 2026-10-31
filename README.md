@@ -27,6 +27,33 @@ cargo run --locked -- --help
 
 Live sources are rescanned every 60 seconds (`--refresh SECONDS`, minimum 5); imported files are checked every five seconds by default. The browser polls the cached report every 60 seconds; Refresh view fetches that report immediately. It does not force a log rescan. Source timestamps are visible. Stop the service with Ctrl-C.
 
+## Starting again after shutting down both machines
+
+Once first-time setup is complete (`token-grove.service` is enabled on the Pi and `sync-install` has succeeded on the Mac), turn both machines on:
+
+- **Pi:** the systemd service starts during boot. No user login is required.
+- **Mac:** log into your account. The user LaunchAgent starts at login and checks for changed usage every five minutes. It does not run before login.
+- **Either boot order works:** if the Pi is not reachable yet, the Mac retries at the next scheduled run. Until a successful transfer, the dashboard keeps showing its last saved snapshot. Its “Usage snapshot” timestamp indicates data freshness; a reachable dashboard alone does not prove sync is working.
+
+Open `http://<pi-address>:9988/` after the Pi has joined the network. No manual restart command is normally needed.
+
+For a manual restart **on the Pi**:
+
+```sh
+sudo systemctl restart token-grove.service
+systemctl status token-grove.service --no-pager
+```
+
+For a manual restart **on the Mac**:
+
+```sh
+cd ~/Daniel/pi-usage
+make sync-restart
+make sync-status CONFIG="$HOME/Library/Application Support/Token Grove/sync.json"
+```
+
+`sync-restart` uses the already installed agent and does not require `CONFIG`. If it says the agent is not loaded, follow the Mac setup below and run `sync-install` with the config path. Use `systemctl is-enabled token-grove.service` on the Pi to check boot startup. Both machines need working network access, and Mac-to-Pi sync needs SSH authentication without password prompts.
+
 ## Portable import workflow
 
 If Codex runs on the computer and the dashboard runs on the Pi, export only normalized usage metadata on the computer:
